@@ -6,7 +6,8 @@ import { loginValidation } from "./login-validation-action";
 import { createUser } from "./create-user-action";
 import { findUserProfile } from "./profile-user-action";
 import { updateProfileAction } from "./update-profile-action";
-import { RequestHandler } from 'express'
+import { NextFunction, RequestHandler, Response } from 'express'
+import { IUser } from './user.interfaces'
 
 export const signup: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
@@ -61,7 +62,7 @@ export const signin: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const userProfile: RequestHandler = async (req, res, next) => {
+export const userProfile= async (req: IUser, res: Response, next: NextFunction) => {
   const { userId } = req.userData;
 
   let user = await findUserProfile(next, userId);
@@ -77,7 +78,7 @@ export const userProfile: RequestHandler = async (req, res, next) => {
   res.json({user: user.toObject({ getters: true })});
 };
 
-export const userUpdateProfile: RequestHandler = async (req, res, next) => {
+export const userUpdateProfile  = async (req: IUser, res: Response, next: NextFunction) => {
   let updatedProfile = await updateProfileAction(req, res, next);
 
   if (!updatedProfile) {

@@ -1,9 +1,10 @@
 const User = require("../../models/user-model");
 import { customError } from "../../error/http-error";
 import { hashedPassword } from "./hash-password-action";
-import { RequestHandler } from 'express'
+import { Request, Response, NextFunction } from 'express'
+import { IData } from './user.interfaces'
 
-export const createUser: RequestHandler = async (req, res, next) => {
+export const createUser = async (req: IData, res: Response, next: NextFunction): Promise<string | void> => {
   const { first_name, last_name, email } = req.body;
   let hashPassword = await hashedPassword(req, res, next);
   let newUser;
@@ -17,7 +18,7 @@ export const createUser: RequestHandler = async (req, res, next) => {
       active: "Active"
     };
  
-   try {
+    try {
       newUser = await User.findOneAndUpdate({email: email}, user);  
     } catch (err) {
       const error = customError(
@@ -35,5 +36,5 @@ export const createUser: RequestHandler = async (req, res, next) => {
 
     return next(error);
   }
-  return newUser;
+  return JSON.stringify(newUser);
 };

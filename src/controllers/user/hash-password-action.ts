@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import { customError } from "../../error/http-error";
-import { RequestHandler } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-export const hashedPassword: RequestHandler = async (req, res, next) => {
+export const hashedPassword = async (req: Request, res: Response, next: NextFunction): Promise<string | void> => {
   const { password } = req.body;
   let hashPassword;
   try {
@@ -15,5 +15,6 @@ export const hashedPassword: RequestHandler = async (req, res, next) => {
 
     return next(error);
   }
+
   return hashPassword;
 };
