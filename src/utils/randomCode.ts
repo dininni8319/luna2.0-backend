@@ -1,13 +1,12 @@
 function randomChar() {
-  var index = Math.floor(Math.random() * 62);
-  // Generate Number character
+  let index = Math.floor(Math.random() * 62);
   if (index < 10) {
     return String(index);
-    // Generate capital letters
+  
   } else if (index < 36) {
     return String.fromCharCode(index + 55);
   } else {
-    // Generate small-case letters
+    
     return String.fromCharCode(index + 61);
   }
 }

@@ -43,7 +43,7 @@ export const signin: RequestHandler = async (req, res, next) => {
   let emailExists = await findUser(next, email, sendExistingUser);
  
   let token = await loginValidation(next, emailExists, password);
-  
+
   if (token) {
     res.status(200).json({
       userName: {

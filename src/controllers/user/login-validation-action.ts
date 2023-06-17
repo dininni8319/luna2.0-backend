@@ -25,13 +25,15 @@ export const loginValidation = async (next: NextFunction, emailExists: any, pass
      
     let token;
     try {
-      token = jwt.sign(
-        {
-          userId: emailExists._id,
-          email: emailExists.email
-        },JWT_KEY,
-        { expiresIn: "1h"}
-      )
+      if (JWT_KEY) {
+        token = jwt.sign(
+          {
+            userId: emailExists._id,
+            email: emailExists.email
+          },JWT_KEY,
+          { expiresIn: "1h"}
+        )
+      }
     } catch (err) {
       const error = customError(
         "Signing Up user failed, please try it again.",

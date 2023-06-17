@@ -6,6 +6,7 @@ import {
   userUpdateProfile 
 } from "../controllers/user/user-controller";
 import { check } from "express-validator";
+
 const router = express.Router();
 const checkAuth = require("../middlewares/check-auth");
 

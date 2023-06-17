@@ -20,12 +20,15 @@ const mongo_string = process.env.DATABASE
 
 const start = async () => {
   try {
-    await connectDB(mongo_string)
-    app.listen(port, () => {
-    console.log("🚀 ~ file: index.js:14 ~ app.listen ~ port:", port)
-  })
+    if (mongo_string) {
+        await connectDB(mongo_string)
+        app.listen(port, () => {
+        console.log("🚀 ~ file: index.js:14 ~ app.listen ~ port:", port)
+      })
+    }
   } catch (error) {
     console.log("🚀 ~ file: index.ts:23 ~ start ~ error:", error)
   }
 }
+
 start()
