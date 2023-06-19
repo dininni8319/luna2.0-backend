@@ -10,16 +10,20 @@ const {
   MAIL_TRAP_PASSWORD,
 } = process.env;
 
-
-const Transporter = nodemailer.createTransport({
+let Options = {
   host: MAIL_TRAP_HOST,
   port: MAIL_TRAP_PORT,
   auth: {
     user: MAIL_TRAP_USER,
     pass: MAIL_TRAP_PASSWORD 
-  },
-  // secure: true,
-});
+  }
+}
+
+interface MailtrapTransporter {
+    host: string;
+}
+
+const Transporter = nodemailer.createTransport(Options as MailtrapTransporter);
 
 
 export default Transporter;

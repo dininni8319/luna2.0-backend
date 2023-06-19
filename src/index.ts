@@ -3,7 +3,8 @@ import bodyParser from 'body-parser'
 import cors from "cors"
 import morgan from 'morgan'
 import connectDB from './db/connect'
-
+const { emailRoutes } = require('./routes/email-route')
+const { userRoutes } = require('./routes/user-route')
 require('dotenv').config()
 
 const app: Express = express()
@@ -11,9 +12,8 @@ const app: Express = express()
 app.use(morgan('dev'))
 app.use(cors())
 app.use(bodyParser.json())
-app.get('/', (req: Request, res: Response) => {
-  res.send("<h1>Typescript works!!!!!</h1>")
-}) 
+app.use("/api/social", userRoutes);
+app.use("/api/email", emailRoutes);
 
 const port = process.env.PORT
 const mongo_string = process.env.DATABASE
