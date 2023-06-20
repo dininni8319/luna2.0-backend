@@ -41,7 +41,7 @@ export const loginValidation = async (next: NextFunction, emailExists: any, pass
       );
       return next(error);
     }
-
+    
     return token;
   }
 };

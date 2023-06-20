@@ -46,11 +46,11 @@ export const signin: RequestHandler = async (req, res, next) => {
 
   if (token) {
     res.status(200).json({
-      userName: {
-         first_name: emailExists.first_name,
-         last_name: emailExists.last_name,
-      },
-      token: token 
+      user: {
+         name: emailExists.name,
+         email: emailExists.email,
+         token: token
+      }
     });
   } else {
     const error = customError(

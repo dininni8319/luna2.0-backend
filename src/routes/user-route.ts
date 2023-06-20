@@ -7,21 +7,21 @@ import {
   userUpdateProfile 
 } from "../controllers/user/user-controller";
 import { check } from "express-validator";
-
-const router = express.Router();
 const checkAuth = require("../middlewares/check-auth");
 
-router.post("/",
+const router = express.Router();
+
+router.post("/signup",
 [
   check("email")
    .normalizeEmail()
    .isEmail(),
   check('password')
    .isLength({min: 8}),
-  check("first_name")
+  check("name")
    .not()
    .isEmpty(),
-  check("last_name")
+  check("location")
    .not()
    .isEmpty(),
   check('code')
@@ -33,8 +33,8 @@ router.post("/",
 router.post("/signin", signin);
 
 router.use(checkAuth);
-router.get("/user/profile", userProfile);
 router.patch("/user/update", userUpdateProfile);
+router.get("/user/profile", userProfile);
 
 export default router;
 

@@ -7,7 +7,7 @@ require('dotenv').config();
 const JWT_KEY = process.env.JWT_KEY;
 
 interface Request extends ExpressRequest {
-  userData: { userId: string}
+  userData: { userId: string }
 }
 
 // token.ts

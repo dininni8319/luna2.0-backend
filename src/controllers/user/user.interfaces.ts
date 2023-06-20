@@ -1,8 +1,8 @@
 import { Request } from 'express'
 
 export interface IBody {
-  first_name: string
-  last_name: string 
+  name: string
+  location: string 
   email: string
 }
 

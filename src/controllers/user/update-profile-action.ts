@@ -9,11 +9,11 @@ interface Request extends ExpressRequest {
 }
 
 export const updateProfileAction = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.userData;
+  const { email } = req.body;
   let user;
   
   try {
-    user = await User.findOneAndUpdate({_id: userId}, req.body).exec();
+    user = await User.findOneAndUpdate({email: email}, req.body).exec();
   } catch (err) {
     const error = customError(
       "I did not find any user profile",
