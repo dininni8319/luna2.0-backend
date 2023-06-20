@@ -21,4 +21,4 @@ router.post("/reset/password",
 ],
  sendCode);
 
-module.exports = router;
+export default router;

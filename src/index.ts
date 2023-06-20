@@ -1,10 +1,11 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express }  from 'express'
 import bodyParser from 'body-parser'
 import cors from "cors"
 import morgan from 'morgan'
 import connectDB from './db/connect'
-const { emailRoutes } = require('./routes/email-route')
-const { userRoutes } = require('./routes/user-route')
+import emailRoutes  from './routes/email-route'
+import userRoutes  from './routes/user-route'
+
 require('dotenv').config()
 
 const app: Express = express()

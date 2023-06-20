@@ -6,8 +6,7 @@ import { loginValidation } from "./login-validation-action";
 import { createUser } from "./create-user-action";
 import { findUserProfile } from "./profile-user-action";
 import { updateProfileAction } from "./update-profile-action";
-import { NextFunction, RequestHandler, Response as ExpressResponse, Request as ExpressRequest  } from 'express';
-
+import { NextFunction, RequestHandler, Response, Request as ExpressRequest } from 'express';
 
 export const signup: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
@@ -62,14 +61,13 @@ export const signin: RequestHandler = async (req, res, next) => {
   }
 };
 
-// interface Request extends ExpressRequest {
-//   userData:{
-//       userId: string
-//   } 
-// }
+interface Request extends ExpressRequest {
+  userData:{
+      userId: string
+  } 
+}
 
-
-export const userProfile = async (req: Request, res: Response, next: NextFunction) => {
+export const userProfile: any = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.userData;
 
   let user = await findUserProfile(next, userId);
@@ -82,10 +80,10 @@ export const userProfile = async (req: Request, res: Response, next: NextFunctio
     return next(error);
   }
 
-  res.json({user: user.toObject({ getters: true })});
+ return res.json({user: user.toObject({ getters: true })}) as any;
 };
 
-export const userUpdateProfile  = async (req: Request, res: Response, next: NextFunction) => {
+export const userUpdateProfile: any = async (req: Request, res: Response, next: NextFunction) => {
   let updatedProfile = await updateProfileAction(req, res, next);
 
   if (!updatedProfile) {
@@ -96,7 +94,7 @@ export const userUpdateProfile  = async (req: Request, res: Response, next: Next
     return next(error);
   }
 
-  res.json(updatedProfile);
+ return res.json(updatedProfile);
 };
 
 

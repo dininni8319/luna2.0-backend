@@ -1,9 +1,14 @@
 const User = require("../../models/user-model");
 import { customError } from "../../error/http-error";
-import { Request, Response, NextFunction } from 'express'
-import { IUser } from './user.interfaces'
+import { Request as ExpressRequest, Response, NextFunction } from 'express'
 
-export const updateProfileAction = async (req: IUser, res: Response, next: NextFunction) => {
+interface Request extends ExpressRequest {
+  userData:{
+      userId: string
+  } 
+}
+
+export const updateProfileAction = async (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.userData;
   let user;
   

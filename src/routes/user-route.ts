@@ -1,4 +1,5 @@
 import express from "express";
+
 import {
   signin, 
   signup, 
@@ -35,5 +36,5 @@ router.use(checkAuth);
 router.get("/user/profile", userProfile);
 router.patch("/user/update", userUpdateProfile);
 
-module.exports = router;
+export default router;
 
