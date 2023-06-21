@@ -4,6 +4,7 @@ export interface IBody {
   name: string
   location: string 
   email: string
+  code: string
 }
 
 export interface IData extends Request {

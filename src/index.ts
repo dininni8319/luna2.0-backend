@@ -3,8 +3,9 @@ import bodyParser from 'body-parser'
 import cors from "cors"
 import morgan from 'morgan'
 import connectDB from './db/connect'
-import emailRoutes  from './routes/email-route'
-import userRoutes  from './routes/user-route'
+import emailRoutes from './routes/email-route'
+import userRoutes from './routes/user-route'
+import restaurantRoutes from './routes/restaurant-route'
 
 require('dotenv').config()
 
@@ -15,6 +16,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use("/api/social", userRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/restaurant", restaurantRoutes);
 
 const port = process.env.PORT
 const mongo_string = process.env.DATABASE
