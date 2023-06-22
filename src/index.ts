@@ -14,7 +14,7 @@ const app: Express = express()
 app.use(morgan('dev'))
 app.use(cors())
 app.use(bodyParser.json())
-app.use("/api/social", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/restaurant", restaurantRoutes);
 

@@ -4,7 +4,8 @@ import {
   signin, 
   signup, 
   userProfile, 
-  userUpdateProfile 
+  userUpdateProfile,
+  getUserList
 } from "../controllers/user/user-controller";
 import { check } from "express-validator";
 const checkAuth = require("../middlewares/check-auth");
@@ -32,9 +33,10 @@ router.patch("/signup",
 
 router.post("/signin", signin);
 
+router.get("/list", getUserList);
 router.use(checkAuth);
-router.patch("/user/update", userUpdateProfile);
-router.get("/user/profile", userProfile);
+router.patch("/update", userUpdateProfile);
+router.get("/profile", userProfile);
 
 export default router;
 

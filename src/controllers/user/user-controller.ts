@@ -7,6 +7,7 @@ import { createUser } from "./create-user-action";
 import { findUserProfile } from "./profile-user-action";
 import { updateProfileAction } from "./update-profile-action";
 import { NextFunction, RequestHandler, Response, Request as ExpressRequest } from 'express';
+const User = require('../../models/user-model')
 
 export const signup: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
@@ -41,7 +42,6 @@ export const signin: RequestHandler = async (req, res, next) => {
 
   let sendExistingUser = false;
   let emailExists = await findUser(next, email, sendExistingUser);
- 
   let token = await loginValidation(next, emailExists, password);
 
   if (token) {
@@ -93,8 +93,22 @@ export const userUpdateProfile: any = async (req: Request, res: Response, next: 
     );
     return next(error);
   }
-
  return res.json(updatedProfile);
 };
 
+export const getUserList: RequestHandler = async (req,res, next) => {
+  let users
+  try {
+    users = await User.find({})
+      .select(['-createdAt', '-updatedAt', '-password'])
+  } catch (err) {
+    const error = customError(
+      "Colud not find any user!",
+      500
+    );
+    return next(error);
+  }
+
+  res.status(200).json(users)
+}
 
