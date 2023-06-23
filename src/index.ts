@@ -6,18 +6,20 @@ import connectDB from './db/connect'
 import emailRoutes from './routes/email-route'
 import userRoutes from './routes/user-route'
 import restaurantRoutes from './routes/restaurant-route'
+import path from 'path'
 
 require('dotenv').config()
 
 const app: Express = express()
 
 app.use(morgan('dev'))
-app.use(cors())
 app.use(bodyParser.json())
+app.use(cors())
+
+app.use("/upload/images", express.static(path.join("upload", "images")));
 app.use("/api/user", userRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/restaurant", restaurantRoutes);
-
 const port = process.env.PORT
 const mongo_string = process.env.DATABASE
 
