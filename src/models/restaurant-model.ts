@@ -34,6 +34,9 @@ const RestaurantSchema: Schema = new Schema({
   image: {
     type: String
   },
+  cloudinary_id: {
+    type: String
+  },
   opening_hours: {
     type: String,
   },

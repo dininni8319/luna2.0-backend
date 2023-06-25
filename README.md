@@ -28,3 +28,7 @@ pnpm i express body-parser cors dotenv helmet morgan mongoose nodemailer jsonweb
 pnpm install --save-dev @types/body-parser @types/morgan @types/cors @types/helmet @types/mongoose @types/nodemailer @types/jsonwebtoken<br/>
 
 The <b>-D</b>flag, also known as the --dev flag, is a specification for the package manager to install these libraries as devDependencies.<br/>
+
+
+<h3>Cloudenery Installations:</h3>
+- pnpm install cloudinary <br/>

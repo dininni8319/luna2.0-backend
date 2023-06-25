@@ -2,6 +2,8 @@ import { RequestHandler , Request, Response, NextFunction } from 'express'
 const Category = require('../../models/category-model')
 const Restaurant = require('../../models/restaurant-model')
 import { customError } from "../../error/http-error"
+import cloudinary from '../../utils/cloudinery'
+import cloudniry from '../../utils/cloudinery'
 
 export const getCategories: RequestHandler = async (req,res, next) => { 
   let categories
@@ -32,8 +34,7 @@ export interface IRestaurant extends Request {
 }
 
 export const createRestaurant = async (req:any, res: Response, next: NextFunction) => {
-  
-  console.log(req.body, req.file, 'body of the request');
+
   const { 
     name, 
     city,
@@ -47,32 +48,31 @@ export const createRestaurant = async (req:any, res: Response, next: NextFunctio
     price_level,
     opening_hours
   } = req.body
-
-
   let restaurant 
   
-  const newRestaurant = {
-    name, 
-    city,
-    country,
-    street, 
-    phone,
-    zipcode,
-    website,
-    category,
-    email,
-    price_level,
-    opening_hours,
-    image: req.file.path
-  }
   try {
-    restaurant = await new Restaurant(newRestaurant).save()
+    const result = await cloudinary.uploader.upload(req.file.path)
+   
+    restaurant = await new Restaurant({
+        name, 
+        city,
+        country,
+        street, 
+        phone,
+        zipcode,
+        website,
+        category,
+        email,
+        price_level,
+        opening_hours,
+        image: result.secure_url,
+        cloudinary_id: result.public_id
+      }).save()
   } catch (err) {
     return next(
       customError("Something went wrong", 404)
     )
   }
-
   res.status(201).json({message: "The restaurant was created"})
 }
 
