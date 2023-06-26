@@ -22,14 +22,16 @@ const authMiddleware = (req:Request, res: Response, next: NextFunction) => {
     return next();
   }
   try {
+    
     const token = req.headers.authorization?.split(" ")[1]; //encode the token in the header "Bearer Token"
+    
     if (!token) {
       throw new Error("Authorization failed!");
     } 
     if (JWT_KEY) {
       const decodedToken = jwt.verify(token, JWT_KEY)
-    
       req.userData = (decodedToken as any).userId
+
       next();
     }
 

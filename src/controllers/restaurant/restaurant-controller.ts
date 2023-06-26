@@ -34,7 +34,8 @@ export interface IRestaurant extends Request {
 }
 
 export const createRestaurant = async (req:any, res: Response, next: NextFunction) => {
-
+  let user = req.userData
+  
   const { 
     name, 
     city,
@@ -46,13 +47,13 @@ export const createRestaurant = async (req:any, res: Response, next: NextFunctio
     category,
     email,
     price_level,
-    opening_hours
+    opening_hours,
   } = req.body
   let restaurant 
   
   try {
     const result = await cloudinary.uploader.upload(req.file.path)
-   
+    
     restaurant = await new Restaurant({
         name, 
         city,
@@ -65,8 +66,9 @@ export const createRestaurant = async (req:any, res: Response, next: NextFunctio
         email,
         price_level,
         opening_hours,
-        image: result.secure_url,
-        cloudinary_id: result.public_id
+        image: result?.secure_url,
+        cloudinary_id: result?.public_id,
+        owner: user
       }).save()
   } catch (err) {
     return next(

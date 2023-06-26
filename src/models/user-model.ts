@@ -59,7 +59,13 @@ const UserSchema: Schema = new Schema({
   confirmationCode: {
     type: String,
     unique: true
-  }
+  }, 
+  restaurants: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Restaurant"
+    }
+  ] 
 }, { timestamps: true });
 
 module.exports = mongoose.model<IUser>("User", UserSchema);
