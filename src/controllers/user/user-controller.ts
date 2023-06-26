@@ -62,13 +62,12 @@ export const signin: RequestHandler = async (req, res, next) => {
 };
 
 interface Request extends ExpressRequest {
-  userData:{
-      userId: string
-  } 
+  userData: string
 }
 
 export const userProfile: any = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId } = req.userData;
+  const userId  = req.userData;
+  console.log("🚀 ~ file: user-controller.ts:72 ~ constuserProfile:any= ~ userId:", userId)
 
   let user = await findUserProfile(next, userId);
 

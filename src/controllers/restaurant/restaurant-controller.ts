@@ -1,9 +1,10 @@
 import { RequestHandler , Request, Response, NextFunction } from 'express'
-const Category = require('../../models/category-model')
-const Restaurant = require('../../models/restaurant-model')
+import mongoose from 'mongoose'
 import { customError } from "../../error/http-error"
 import cloudinary from '../../utils/cloudinery'
-import cloudniry from '../../utils/cloudinery'
+const Category = require('../../models/category-model')
+const Restaurant = require('../../models/restaurant-model')
+const User = require("../../models/user-model")
 
 export const getCategories: RequestHandler = async (req,res, next) => { 
   let categories
@@ -34,7 +35,7 @@ export interface IRestaurant extends Request {
 }
 
 export const createRestaurant = async (req:any, res: Response, next: NextFunction) => {
-  let user = req.userData
+  let userId = req.userData
   
   const { 
     name, 
@@ -49,32 +50,55 @@ export const createRestaurant = async (req:any, res: Response, next: NextFunctio
     price_level,
     opening_hours,
   } = req.body
-  let restaurant 
-  
+ 
+
+  const result = await cloudinary.uploader.upload(req.file.path)
+
+  const newRestaurant = new Restaurant({
+      name, 
+      city,
+      country,
+      street, 
+      phone,
+      zipcode,
+      website,
+      category,
+      email,
+      price_level,
+      opening_hours,
+      image: result?.secure_url,
+      cloudinary_id: result?.public_id,
+      owner: userId
+  })
+
+  let user 
+   try {
+    user = await User.findById(userId);
+  } catch (err) {
+    const error = customError('Error with user', 500);
+    return next(error);
+  }
+
+  if (!user) {
+    const error = customError('Could not find user for provided id', 404);
+    return next(error);
+  }
   try {
-    const result = await cloudinary.uploader.upload(req.file.path)
-    
-    restaurant = await new Restaurant({
-        name, 
-        city,
-        country,
-        street, 
-        phone,
-        zipcode,
-        website,
-        category,
-        email,
-        price_level,
-        opening_hours,
-        image: result?.secure_url,
-        cloudinary_id: result?.public_id,
-        owner: user
-      }).save()
+     const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await newRestaurant.save({ session: sess });
+      user.restaurants.push(newRestaurant);
+      await user.save({ session: sess });
+      await sess.commitTransaction();
+    // user = await User.findOne({"_id": userId })
+    // user.restaurants.push(newRestaurant)
+    // newRestaurant.save()
   } catch (err) {
     return next(
-      customError("Something went wrong", 404)
+      customError('User not found', 404)
     )
   }
+
   res.status(201).json({message: "The restaurant was created"})
 }
 

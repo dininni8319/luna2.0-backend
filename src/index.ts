@@ -13,13 +13,13 @@ require('dotenv').config()
 const app: Express = express()
 
 app.use(morgan('dev'))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
-
-app.use("/upload/images", express.static(path.join("upload", "images")));
 app.use("/api/user", userRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/restaurant", restaurantRoutes);
+
+app.use("/upload/images", express.static(path.join("upload", "images")));
 const port = process.env.PORT
 const mongo_string = process.env.DATABASE
 

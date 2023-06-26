@@ -3,9 +3,7 @@ import { customError } from "../../error/http-error";
 import { Request as ExpressRequest, Response, NextFunction } from 'express'
 
 interface Request extends ExpressRequest {
-  userData:{
-      userId: string
-  } 
+  userData: string
 }
 
 export const updateProfileAction = async (req: Request, res: Response, next: NextFunction) => {

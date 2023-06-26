@@ -34,7 +34,7 @@ router.patch("/signup",
 router.post("/signin", signin);
 
 router.get("/list", getUserList);
-router.use(checkAuth);
+router.use(checkAuth)
 router.patch("/update", userUpdateProfile);
 router.get("/profile", userProfile);
 

@@ -28,10 +28,12 @@ const authMiddleware = (req:Request, res: Response, next: NextFunction) => {
     if (!token) {
       throw new Error("Authorization failed!");
     } 
-    if (JWT_KEY) {
+    if (JWT_KEY && token) {
+
       const decodedToken = jwt.verify(token, JWT_KEY)
       req.userData = (decodedToken as any).userId
-
+      console.log(req.userData, 'user data--------');
+      
       next();
     }
 

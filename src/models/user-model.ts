@@ -56,6 +56,10 @@ const UserSchema: Schema = new Schema({
     enum:[ "Pending", "Active"],
     default: "Pending"
   },
+  description: {
+    type: String,
+    maxlength: [500, "Too long"]
+  },
   confirmationCode: {
     type: String,
     unique: true
