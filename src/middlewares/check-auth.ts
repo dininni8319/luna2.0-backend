@@ -10,13 +10,6 @@ interface Request extends ExpressRequest {
   userData: { userId: string }
 }
 
-// token.ts
-export interface TokenInterface {
-  userData: {
-     userId: number;
-  };
-}
-
 const authMiddleware = (req:Request, res: Response, next: NextFunction) => {
   if (req.method === "OPTIONS") {
     return next();
@@ -28,9 +21,10 @@ const authMiddleware = (req:Request, res: Response, next: NextFunction) => {
     if (!token) {
       throw new Error("Authorization failed!");
     } 
+  
     if (JWT_KEY && token) {
-      const decodedToken = jwt.verify(token, JWT_KEY)
-      req.userData = (decodedToken as any).userId
+      const decodedToken: any = jwt.verify(token, JWT_KEY)
+      req.userData = decodedToken.userId
       
       next();
     }
@@ -44,3 +38,4 @@ const authMiddleware = (req:Request, res: Response, next: NextFunction) => {
 };
 
 module.exports = authMiddleware
+

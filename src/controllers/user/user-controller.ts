@@ -67,10 +67,9 @@ interface Request extends ExpressRequest {
 
 export const userProfile: any = async (req: Request, res: Response, next: NextFunction) => {
   const userId  = req.userData;
-  console.log("🚀 ~ file: user-controller.ts:72 ~ constuserProfile:any= ~ userId:", userId)
 
   let user = await findUserProfile(next, userId);
-
+  
   if (!user || !userId) {
     const error = customError(
       "I did not find any user profile",
