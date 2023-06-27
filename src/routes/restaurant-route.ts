@@ -6,7 +6,7 @@ const checkAuth = require('../middlewares/check-auth')
 const router = express.Router()
 
 router.get('/categories', getCategories)
-router.use(checkAuth)
+// router.use(checkAuth)
 router.get('/list', getAllRestaurants)
 router.post('/new', fileUpload.single('image'), createRestaurant)
 
